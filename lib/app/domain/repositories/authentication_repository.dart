@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_auth/app/domain/response/sign_in_response.dart';
+import 'package:flutter_auth/app/domain/responses/reset_password_responsse.dart';
+import 'package:flutter_auth/app/domain/responses/sign_in_response.dart';
 
 abstract class AuthenticationRepository {
   Future<User?> get user;
@@ -8,6 +9,8 @@ abstract class AuthenticationRepository {
     String email,
     String password,
   );
+
+  Future<ResetPasswordResponse> sendResetPasswordLink(String email);
 }
 
 

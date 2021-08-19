@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/app/ui/global_controller/theme_controller.dart';
 import 'package:flutter_auth/app/ui/pages/routes/app_routes.dart';
 import 'package:flutter_auth/app/ui/pages/routes/routes.dart';
+import 'package:flutter_meedu/flutter_meedu.dart';
 import 'package:flutter_meedu/router.dart' as router;
 
 class MyApp extends StatelessWidget {
@@ -8,15 +10,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter FA Meedu',
-      navigatorKey: router.navigatorKey,
-      debugShowCheckedModeBanner: false,
-      initialRoute: Routes.SPLASH,
-      routes: appRoutes,
-      navigatorObservers: [
-        router.observer,
-      ],
+    return Consumer(
+      builder: (_, watch, __) {
+
+        final theme = watch(themeProvider);
+        return MaterialApp(
+          title: 'Flutter FA Meedu',
+          navigatorKey: router.navigatorKey,
+          debugShowCheckedModeBanner: false,
+          initialRoute: Routes.SPLASH,
+          darkTheme: ThemeData.dark(),
+          theme: ThemeData.light(),
+          themeMode: theme.mode,
+          routes: appRoutes,
+          navigatorObservers: [
+            router.observer,
+          ],
+        );
+      },
     );
   }
 }

@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_auth/app/domain/response/sign_up_response.dart';
+import 'package:flutter_auth/app/domain/responses/sign_up_response.dart';
 import 'package:flutter_auth/app/domain/repositories/sign_up_repository.dart';
 
 class SignUpRepositoryImpl implements SignUpRepository {
@@ -15,7 +14,7 @@ class SignUpRepositoryImpl implements SignUpRepository {
               email: data.email, password: data.password);
 
       await userCredential.user!.updateDisplayName(
-        '${data.name}' '${data.lastname}',
+        '${data.name}' '${ data.lastname}',
       );
       return SignUpResponse(null, userCredential.user!);
     } on FirebaseAuthException catch (e) {

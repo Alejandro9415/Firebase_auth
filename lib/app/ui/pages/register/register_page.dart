@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/app/ui/global_controller/session_controller.dart';
 import 'package:flutter_auth/app/ui/global_widgets/custom_input_field.dart';
 import 'package:flutter_auth/app/ui/pages/register/controller/register_controller.dart';
 import 'package:flutter_auth/app/ui/pages/register/register_state.dart';
@@ -10,7 +11,7 @@ import 'package:flutter_meedu/flutter_meedu.dart';
 import 'package:flutter_meedu/state.dart';
 
 final registerProvider = StateProvider<RegisterController, RegisterState>(
-  (_) => RegisterController(),
+  (_) => RegisterController(sessionProvider.read),
 );
 
 class RegisterPage extends StatelessWidget {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/app/ui/global_controller/session_controller.dart';
 import 'package:flutter_auth/app/ui/global_widgets/custom_input_field.dart';
 import 'package:flutter_auth/app/ui/pages/login/controller/login_controller.dart';
 import 'package:flutter_auth/app/ui/pages/login/utils/send_login_form.dart';
@@ -10,7 +11,7 @@ import 'package:flutter_meedu/meedu.dart';
 import 'package:flutter_meedu/state.dart';
 
 final loginProvider = SimpleProvider(
-  (_) => LoginController(),
+  (_) => LoginController(sessionProvider.read),
 );
 
 class LoginPage extends StatelessWidget {
@@ -34,7 +35,6 @@ class LoginPage extends StatelessWidget {
                   child: Form(
                     key: controller.formKey,
                     child: Column(
-                      
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         CustomInputField(
@@ -62,9 +62,22 @@ class LoginPage extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        ElevatedButton(
-                          onPressed: ()=> sendLoginForm(context),
-                          child: const Text('Sign In'),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () => sendLoginForm(context),
+                              child: const Text('Sign In'),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            TextButton(
+                              onPressed: () =>
+                                  router.pushNamed(Routes.RESET_PASSWORD),
+                              child: const Text('Forgot Password?'),
+                            ),
+                          ],
                         ),
                         const SizedBox(
                           height: 20,
@@ -72,7 +85,10 @@ class LoginPage extends StatelessWidget {
                         ElevatedButton(
                           onPressed: () => router.pushNamed(Routes.REGISTER),
                           child: const Text('Sign Up'),
-                        )
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
                       ],
                     ),
                   ),

@@ -1,35 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/app/domain/repositories/authentication_repository.dart';
-import 'package:flutter_auth/app/ui/pages/routes/routes.dart';
+import 'package:flutter_auth/app/ui/global_controller/session_controller.dart';
+import 'package:flutter_auth/app/ui/pages/home/controller/home_controller.dart';
+import 'package:flutter_auth/app/ui/pages/home/tabs/home/home_tab.dart';
+import 'package:flutter_auth/app/ui/pages/home/tabs/profile/profile_tab.dart';
+import 'package:flutter_auth/app/ui/pages/home/widgets/home_tab_bar.dart';
 import 'package:flutter_meedu/flutter_meedu.dart';
-import 'package:flutter_meedu/router.dart' as router;
+
+final homeProvider = SimpleProvider(
+  (_) => HomeController(),
+);
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('Hola Home'),
-            const SizedBox(
-              height: 20,
+    return ProviderListener<HomeController>(
+      provider: homeProvider,
+      builder: (_, controller) {
+        return Scaffold(
+          bottomNavigationBar:  HomeTabBar(),
+          body: SafeArea(
+            child: TabBarView(
+              controller: controller.tabController,
+              children: const [
+                HomeTab(),
+                ProfileTab(),
+              ],
             ),
-            CupertinoButton(
-              child: const Text('Sign Out'),
-              color: Colors.blue,
-              onPressed: () async {
-                await Get.i.find<AuthenticationRepository>().signOut();
-                router.pushNamedAndRemoveUntil(Routes.LOGIN);
-              },
-            )
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

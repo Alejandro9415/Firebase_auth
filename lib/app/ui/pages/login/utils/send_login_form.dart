@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_auth/app/domain/response/sign_in_response.dart';
+import 'package:flutter_auth/app/domain/responses/sign_in_response.dart';
 import 'package:flutter_auth/app/ui/global_widgets/dialogs/dialogs.dart';
 import 'package:flutter_auth/app/ui/global_widgets/dialogs/progress_dialog.dart';
 import 'package:flutter_auth/app/ui/pages/routes/routes.dart';

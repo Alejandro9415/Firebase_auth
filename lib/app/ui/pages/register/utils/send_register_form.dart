@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_auth/app/domain/response/sign_up_response.dart';
+import 'package:flutter_auth/app/domain/responses/sign_up_response.dart';
 import 'package:flutter_auth/app/ui/global_widgets/dialogs/dialogs.dart';
 import 'package:flutter_auth/app/ui/global_widgets/dialogs/progress_dialog.dart';
 import 'package:flutter_auth/app/ui/pages/routes/routes.dart';
@@ -29,6 +29,9 @@ Future<void> sendRegisterForm(BuildContext context) async {
           description = 'network request failed';
           break;
         case SignUpError.unknown:
+        case SignUpError.tooManyRequest:
+          description = 'too many request';
+          break;
         default:
           description = 'unknown error';
           break;
