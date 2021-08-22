@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/app/ui/pages/home/home_page.dart';
-import '../../../utils/dark_mode_extension.dart';
+import 'package:flutter_meedu/screen_utils.dart';
 
 class HomeTabBar extends StatelessWidget {
   HomeTabBar({Key? key}) : super(key: key);
@@ -14,10 +14,12 @@ class HomeTabBar extends StatelessWidget {
     return SafeArea(
       top: false,
       child: TabBar(
-        labelColor: Colors.blue,
+        labelColor: isDark ? Colors.pinkAccent : Colors.blue,
         unselectedLabelColor: isDark ? Colors.white30 : Colors.black26,
         controller: _homeController.tabController,
-        indicator: _CustomIndicator(),
+        indicator: _CustomIndicator(
+          isDark ? Colors.pinkAccent : Colors.blue,
+        ),
         tabs: const [
           Tab(
             icon: Icon(
@@ -36,14 +38,22 @@ class HomeTabBar extends StatelessWidget {
 }
 
 class _CustomIndicator extends Decoration {
+  final Color _color;
+
+  const _CustomIndicator(this._color);
   @override
-  BoxPainter createBoxPainter([VoidCallback? onChanged]) => _CirclePainter();
+  BoxPainter createBoxPainter([VoidCallback? onChanged]) =>
+      _CirclePainter(_color);
 }
 
 class _CirclePainter extends BoxPainter {
+  _CirclePainter(this._color);
+
+  final Color _color;
+
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
-    final paint = Paint()..color = Colors.blue;
+    final paint = Paint()..color = _color;
 
     final size = configuration.size!;
     final center = Offset(offset.dx + size.width * 0.5, size.height * 0.8);

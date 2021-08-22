@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
-extension DarkModeExtension on BuildContext{
-  bool get isDarkMode {
-   return Theme.of(this).brightness ==Brightness.dark;
-  }
-}
+// extension DarkModeExtension on BuildContext{
+//   bool get isDarkMode {
+//    return Theme.of(this).brightness ==Brightness.dark;
+//   }
+// }

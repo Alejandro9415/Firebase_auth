@@ -1,0 +1,37 @@
+{
+    "name": "MeeduIcons",
+    "css_prefix_text": "",
+    "css_use_suffix": false,
+    "hinting": true,
+    "units_per_em": 1000,
+    "ascent": 850,
+    "glyphs": [{
+            "uid": "85c7b13e33a1fce47d46e3aa47214a67",
+            "css": "facebook",
+            "code": 59392,
+            "src": "custom_icons",
+            "selected": true,
+            "svg": {
+                "path": "M562.5 343.8V218.8C562.5 184.3 590.5 156.3 625 156.3H687.5V0H562.5C458.9 0 375 83.9 375 187.5V343.8H250V500H375V1000H562.5V500H687.5L750 343.8H562.5Z",
+                "width": 1000
+            },
+            "search": [
+                "facebook"
+            ]
+        },
+        {
+            "uid": "0e6b9d456eb01e42130944d2808fed25",
+            "css": "google",
+            "code": 59393,
+            "src": "custom_icons",
+            "selected": true,
+            "svg": {
+                "path": "M562.5 450V575H857.5C827.5 750 687.5 875 512.5 875 307.5 875 137.5 705 137.5 500S307.5 125 512.5 125C617.5 125 707.5 170 772.5 240L862.5 150C772.5 60 652.5 0 512.5 0 237.5 0 12.5 225 12.5 500S237.5 1000 512.5 1000 987.5 775 987.5 500V450H562.5Z",
+                "width": 1000
+            },
+            "search": [
+                "google-glass-logo"
+            ]
+        }
+    ]
+}

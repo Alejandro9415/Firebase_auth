@@ -5,16 +5,25 @@ import 'package:flutter_auth/app/ui/global_controller/theme_controller.dart';
 import 'package:flutter_auth/app/ui/global_widgets/dialogs/dialogs.dart';
 import 'package:flutter_auth/app/ui/global_widgets/dialogs/progress_dialog.dart';
 import 'package:flutter_auth/app/ui/global_widgets/dialogs/show_input_dialog.dart';
+import 'package:flutter_auth/app/ui/pages/routes/routes.dart';
 import 'package:flutter_meedu/state.dart';
-import '../../../../utils/dark_mode_extension.dart';
+import 'package:flutter_meedu/screen_utils.dart';
+import 'package:flutter_meedu/router.dart' as router;
+
+import 'widgets/label_button.dart';
 
 class ProfileTab extends ConsumerWidget {
   const ProfileTab({Key? key}) : super(key: key);
 
   void _updateDisplay(BuildContext context) async {
-    final value = await showInputDialog(context);
+    final sessionController = sessionProvider.read;
+    final value = await showInputDialog(context,
+        initialValue: sessionController.user!.displayName ?? '');
+
     if (value != null) {
-      ProgressDialog.show(context);
+      ProgressDialog.show(
+        context,
+      );
       final user = await sessionProvider.read.updateDisplayName(value);
       Navigator.pop(context);
       if (user == null) {
@@ -46,11 +55,13 @@ class ProfileTab extends ConsumerWidget {
                   letter,
                   style: const TextStyle(fontSize: 65),
                 )
-              : null,
-          backgroundImage:
-              user.photoURL != null ? NetworkImage(user.photoURL!) : null,
+              : ClipOval(
+                  child: Image.network(
+                  user.photoURL!,
+                  fit: BoxFit.cover,
+                )),
         ),
-           const SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Center(
@@ -71,69 +82,47 @@ class ProfileTab extends ConsumerWidget {
           height: 50,
         ),
         LabelButton(
-          label: 'Name',
-          value: user.displayName ?? '',
+          label: "Display Name",
+          value: displayName,
           onPressed: () => _updateDisplay(context),
         ),
         LabelButton(
-          label: 'Email',
+          label: "Email",
           value: user.email ?? '',
         ),
         LabelButton(
-          label: 'Email verified',
-          value: user.emailVerified ? 'YES' : 'NO',
+          label: "Email verified",
+          value: user.emailVerified ? "YES" : "NO",
         ),
-        CupertinoSwitch(
-          value: isDark,
-          onChanged: (_) => themeProvider.read.toggle(),
-        )
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 10,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("Dark Mode"),
+              CupertinoSwitch(
+                value: isDark,
+                activeColor: isDark ? Colors.pinkAccent : Colors.blue,
+                onChanged: (_) {
+                  themeProvider.read.toggle();
+                },
+              ),
+            ],
+          ),
+        ),
+        LabelButton(
+          label: "Sign Out",
+          value: "",
+          onPressed: () async {
+            ProgressDialog.show(context);
+            await sessionProvider.read.signOut();
+            router.pushNamedAndRemoveUntil(Routes.LOGIN);
+          },
+        ),
       ],
-    );
-  }
-}
-
-class LabelButton extends StatelessWidget {
-  const LabelButton({
-    Key? key,
-    required this.label,
-    required this.value,
-    this.onPressed,
-  }) : super(key: key);
-
-  final String label, value;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final isDark = context.isDarkMode;
-    final IconColor = isDark ? Colors.white30 : Colors.black45;
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 0,
-      ),
-      onTap: onPressed,
-      leading: Text(
-        label,
-        style: const TextStyle(fontWeight: FontWeight.w500),
-      ),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            value,
-            style: const TextStyle(fontWeight: FontWeight.w300),
-          ),
-          const SizedBox(
-            width: 5,
-          ),
-          Icon(
-            Icons.chevron_right_outlined,
-            size: 22,
-            color: onPressed != null ? IconColor : Colors.transparent,
-          ),
-        ],
-      ),
     );
   }
 }

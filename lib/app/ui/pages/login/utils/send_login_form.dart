@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_auth/app/domain/responses/sign_in_response.dart';
-import 'package:flutter_auth/app/ui/global_widgets/dialogs/dialogs.dart';
 import 'package:flutter_auth/app/ui/global_widgets/dialogs/progress_dialog.dart';
-import 'package:flutter_auth/app/ui/pages/routes/routes.dart';
+import 'package:flutter_auth/app/ui/pages/login/utils/handle_login_response.dart';
 import '../login_page.dart' show loginProvider;
 import 'package:flutter_meedu/router.dart' as router;
 
@@ -11,39 +9,9 @@ Future<void> sendLoginForm(BuildContext context) async {
   final isValidForm = controller.formKey.currentState!.validate();
   if (isValidForm) {
     ProgressDialog.show(context);
-    final response = await controller.submit();
+    final response = await controller.signInWithEmailAndPassword();
     router.pop();
-    if (response.error != null) {
-      late String errorMessage;
-      switch (response.error) {
-        case SignInError.networkRequestFailed:
-          errorMessage = 'network request failed';
-          break;
-        case SignInError.userDisabled:
-          errorMessage = 'user Disabled';
-          break;
-        case SignInError.userNotFound:
-          errorMessage = 'user not found';
-          break;
-        case SignInError.wrongPassword:
-          errorMessage = 'wrong password';
-          break;
-        case SignInError.tooManyRequest:
-          errorMessage = 'too many request';
-          break;
-        case SignInError.unknown:
-        default:
-          errorMessage = 'error unknown';
-          break;
-      }
 
-      Dialogs.alert(
-        context,
-        title: 'ERROR',
-        description: errorMessage,
-      );
-    } else {
-      router.pushReplacementNamed(Routes.HOME);
-    }
+    handleLoginResponse(context, response);
   }
 }

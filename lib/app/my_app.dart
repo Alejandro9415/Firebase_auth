@@ -12,15 +12,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (_, watch, __) {
-
         final theme = watch(themeProvider);
         return MaterialApp(
+          key: router.appKey,
           title: 'Flutter FA Meedu',
           navigatorKey: router.navigatorKey,
           debugShowCheckedModeBanner: false,
           initialRoute: Routes.SPLASH,
-          darkTheme: ThemeData.dark(),
-          theme: ThemeData.light(),
+          darkTheme: theme.darkTheme,
+          theme: theme.ligthTheme,
           themeMode: theme.mode,
           routes: appRoutes,
           navigatorObservers: [
